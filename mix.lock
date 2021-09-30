@@ -1,0 +1,4 @@
+%{
+  "nx": {:git, "https://github.com/elixir-nx/nx.git", "89d47f0b1437b76f40faa07f15dbaf565e80efb0", [sparse: "nx"]},
+  "scidata": {:hex, :scidata, "0.1.2", "beae78d10bda140d11aea57b8fee2bc9e626528b2ab335bc2c486dcf7adf77c7", [:mix], [], "hexpm", "18fbe945228227d6ed6ef9d638e1c9c6c2dca4bc81351d3a37b3b52acd22305e"},
+}
