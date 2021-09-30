@@ -1,12 +1,17 @@
 defmodule NLTEx.WordVectors.GloVe do
-  @moduledoc """
-  Provides interface to retrieve and consistently structure GloVe word vectors
+  @moduledoc ~S"""
+  Provides interface to retrieve and preprocess GloVe word vectors.
+
+  Jeffrey Pennington, Richard Socher, and Christopher D. Manning. 2014.
+  _GloVe: Global Vectors for Word Representation._
+
+  https://nlp.stanford.edu/projects/glove/
   """
 
   @base_url               "http://localhost:8080/" #TODO revert to original URL # "http://nlp.stanford.edu/data/"
   @file_glove_6b          "glove.6B.zip"
-  # @file_glove_42b         "glove.42B.300d.zip"
-  # @file_glove_840b        "glove.840B.300d.zip"
+  @file_glove_42b         "glove.42B.300d.zip"
+  @file_glove_840b        "glove.840B.300d.zip"
   @file_glove_twitter_27b "glove.twitter.27B.zip"
   @glove_vecs %{
     {:glove_6b, 50} => {@file_glove_6b, 'glove.6B.50d.txt'},
@@ -26,8 +31,26 @@ defmodule NLTEx.WordVectors.GloVe do
 
   alias Scidata.Utils
 
-  @doc """
-  Download and unpack the requested GloVe vector file and parse into %NLTEx.WordsVecs{}
+  @doc ~S"""
+  Download and unpack the requested GloVe vector file and parse it into word vectors.
+
+  Available combinations of GloVe libraries and vector sizes are:
+
+  - `:glove_6b`
+    - 50
+    - 100
+    - 200
+    - 300
+  - `:glove_twitter_27b`
+    - 25
+    - 50
+    - 100
+    - 200
+
+  ## Examples
+
+      iex> w2v = NLTEx.WordVectors.GloVe.download(:glove_6b, 50)
+      iex> %NLTEx.WordVectors{vectors: _vectors_list, words: _words_list} = w2v
   """
   def download(lib, vec_size) do
     {lib_file, vec_file} = Map.get(@glove_vecs, {lib, vec_size})

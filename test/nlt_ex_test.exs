@@ -1,8 +1,5 @@
 defmodule NLTExTest do
   use ExUnit.Case
-  doctest NLTEx
+  doctest NLTEx.WordVectors.GloVe
 
-  test "greets the world" do
-    assert NLTEx.hello() == :world
-  end
 end
