@@ -8,10 +8,10 @@ defmodule NLTEx.WordVectors.GloVe do
   https://nlp.stanford.edu/projects/glove/
   """
 
-  @base_url               "http://localhost:8080/" #TODO revert to original URL # "http://nlp.stanford.edu/data/"
+  @canonical_base_url     "http://nlp.stanford.edu/data/"
   @file_glove_6b          "glove.6B.zip"
-  @file_glove_42b         "glove.42B.300d.zip"
-  @file_glove_840b        "glove.840B.300d.zip"
+  # @file_glove_42b         "glove.42B.300d.zip"
+  # @file_glove_840b        "glove.840B.300d.zip"
   @file_glove_twitter_27b "glove.twitter.27B.zip"
   @glove_vecs %{
     {:glove_6b, 50} => {@file_glove_6b, 'glove.6B.50d.txt'},
@@ -47,15 +47,20 @@ defmodule NLTEx.WordVectors.GloVe do
     - 100
     - 200
 
+  ## Options
+
+  - `:base_url` Overrides the canonical Stanford NLP data server URL for alternate hosting of GloVe files
+
   ## Examples
 
       iex> w2v = NLTEx.WordVectors.GloVe.download(:glove_6b, 50)
       iex> %NLTEx.WordVectors{vectors: _vectors_list, words: _words_list} = w2v
   """
-  def download(lib, vec_size) do
+  def download(lib, vec_size, opts \\ []) do
+    base_url = Keyword.get(opts, :base_url, @canonical_base_url) |> IO.inspect()
     {lib_file, vec_file} = Map.get(@glove_vecs, {lib, vec_size})
 
-    {words, vectors} = Utils.get!(@base_url <> lib_file).body
+    {words, vectors} = Utils.get!(base_url <> lib_file).body
     |> extract_vec_data(vec_file)
     |> process_vec_data(vec_size)
 
