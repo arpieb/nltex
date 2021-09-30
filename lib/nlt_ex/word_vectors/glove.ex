@@ -1,4 +1,4 @@
-defmodule NLTEx.GloVe do
+defmodule NLTEx.WordVectors.GloVe do
   @moduledoc """
   Provides interface to retrieve and consistently structure GloVe word vectors
   """
@@ -32,11 +32,11 @@ defmodule NLTEx.GloVe do
   def download(lib, vec_size) do
     {lib_file, vec_file} = Map.get(@glove_vecs, {lib, vec_size})
 
-    {words, vecs} = Utils.get!(@base_url <> lib_file).body
+    {words, vectors} = Utils.get!(@base_url <> lib_file).body
     |> extract_vec_data(vec_file)
     |> process_vec_data(vec_size)
 
-    NLTEx.WordsVecs.new(words, vecs)
+    NLTEx.WordVectors.new(words, vectors)
   end
 
   # Util function to handle extracting specific file from ZIPfile
