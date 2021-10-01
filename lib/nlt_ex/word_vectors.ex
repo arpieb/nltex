@@ -13,4 +13,16 @@ defmodule NLTEx.WordVectors do
       vectors: vectors,
     }
   end
+
+  @doc ~S"""
+  Vectorize a list of tokens using the provided word vector mappings
+  """
+  def vectorize_tokens(tokens, %__MODULE__{} = wv) do
+    embedded_vecs = Nx.tensor(wv.vectors)
+    words = wv.words
+
+    tokens
+    |> Enum.filter(fn t -> Map.has_key?(words, t) end)
+    |> Enum.map(fn t -> embedded_vecs[Map.get(words, t)] end)
+  end
 end

@@ -33,7 +33,8 @@ defmodule NLTEx.MixProject do
   defp deps do
     [
       {:scidata, "~> 0.1.2"},
-      {:ex_doc, ">= 0.24.0", only: :dev, runtime: false},
+      {:nx,      "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "nx", override: true},
+      {:ex_doc,  ">= 0.24.0", only: :dev, runtime: false},
     ]
   end
 
