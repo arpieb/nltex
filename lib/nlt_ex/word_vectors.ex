@@ -23,7 +23,7 @@ defmodule NLTEx.WordVectors do
       iex> {words, _} = tokens |> Enum.reduce({%{}, 0}, fn w, {v, i} -> {Map.put(v, w, i), i + 1} end)
       iex> vecs = Nx.eye(length(Map.keys(words)))
       iex> wv = NLTEx.WordVectors.new(words, vecs)
-      iex> NLTEx.WordVectors.vectorize_tokens(tokens, wv)
+      iex> {3, 3} = NLTEx.WordVectors.vectorize_tokens(tokens, wv) |> Nx.stack() |> Nx.shape()
   """
   def vectorize_tokens(tokens, %__MODULE__{} = wv) do
     vectors = wv.vectors
