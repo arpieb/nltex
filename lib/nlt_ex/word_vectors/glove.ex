@@ -57,7 +57,7 @@ defmodule NLTEx.WordVectors.GloVe do
       iex> %NLTEx.WordVectors{vectors: _vectors_list, words: _words_list} = w2v
   """
   def download(lib, vec_size, opts \\ []) do
-    base_url = Keyword.get(opts, :base_url, @canonical_base_url) |> IO.inspect()
+    base_url = opts[:base_url] || @canonical_base_url #Keyword.get(opts, :base_url, @canonical_base_url) |> IO.inspect()
     {lib_file, vec_file} = Map.get(@glove_vecs, {lib, vec_size})
 
     {words, vectors} = Utils.get!(base_url <> lib_file).body
