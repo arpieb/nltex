@@ -14,13 +14,30 @@ defmodule NLTEx.WordVectors do
     }
   end
 
-  @doc ~S"""
-  Vectorize a list of tokens into a list of n-dimensional vectors using the provided word vector mappings
-  """
   def vectorize_tokens(tokens, %__MODULE__{} = wv) do
     zeros = Nx.broadcast(0, wv.shape)
     tokens
     |> Enum.map(fn t -> Map.get(wv.wordvecs, t, zeros) end)
+  end
+
+  def shape(wv), do: wv.shape
+
+  def put(wv, word, vec) do
+    vshape = Nx.shape(vec)
+    unless vshape == wv.shape do
+      raise ArgumentError,
+      "expected input shape to match vector definitions," <>
+        " got #{inspect(vshape)} != #{inspect(wv.shape)}"
+    end
+    %{wv | wordvecs: Map.put(wv.wordvecs, word, vec)}
+  end
+
+  def get(wv, word) do
+    get(wv, word, Nx.broadcast(0.0, wv.shape))
+  end
+
+  def get(wv, word, defval) do
+    Map.get(wv.wordvecs, word, defval)
   end
 
 end
