@@ -4,52 +4,23 @@ defmodule NLTEx.WordVectors do
   mapped into for general consumption.
   """
 
-  @enforce_keys [:words, :vectors]
-  defstruct [:words, :vectors]
+  @enforce_keys [:wordvecs, :shape]
+  defstruct [:wordvecs, :shape]
 
-  def new(words, vectors) do
+  def new(wordvecs, shape) do
     %__MODULE__{
-      words: words,
-      vectors: vectors,
+      wordvecs: wordvecs,
+      shape: shape
     }
   end
 
   @doc ~S"""
   Vectorize a list of tokens into a list of n-dimensional vectors using the provided word vector mappings
-
-  ## Examples
-
-      iex> tokens = String.split("the fat cat")
-      iex> {words, _} = tokens |> Enum.reduce({%{}, 0}, fn w, {v, i} -> {Map.put(v, w, i), i + 1} end)
-      iex> vecs = Nx.eye(length(Map.keys(words)))
-      iex> wv = NLTEx.WordVectors.new(words, vecs)
-      iex> {3, 3} = NLTEx.WordVectors.vectorize_tokens(tokens, wv) |> Nx.stack() |> Nx.shape()
   """
   def vectorize_tokens(tokens, %__MODULE__{} = wv) do
-    vectors = wv.vectors
-    words = wv.words
-
+    zeros = Nx.broadcast(0, wv.shape)
     tokens
-    |> Enum.filter(fn t -> Map.has_key?(words, t) end)
-    |> Enum.map(fn t -> vectors[Map.get(words, t)] end)
+    |> Enum.map(fn t -> Map.get(wv.wordvecs, t, zeros) end)
   end
 
-  @doc ~S"""
-  Vectorize a list of tokens into a list of word-vector indices using the provided ordered word vector vocabulary
-
-  ## Examples
-
-      iex> tokens = String.split("the fat cat")
-      iex> {words, _} = tokens |> Enum.reduce({%{}, 0}, fn w, {v, i} -> {Map.put(v, w, i), i + 1} end)
-      iex> vecs = Nx.eye(length(Map.keys(words)))
-      iex> wv = NLTEx.WordVectors.new(words, vecs)
-      iex> [0, 1, 2] = NLTEx.WordVectors.index_tokens(tokens, wv)
-  """
-  def index_tokens(tokens, %__MODULE__{} = wv) do
-    words = wv.words
-
-    tokens
-    |> Enum.filter(fn t -> Map.has_key?(words, t) end)
-    |> Enum.map(fn t -> Map.get(words, t) end)
-  end
 end

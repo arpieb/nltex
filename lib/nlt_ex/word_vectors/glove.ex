@@ -64,9 +64,11 @@ defmodule NLTEx.WordVectors.GloVe do
     |> extract_vec_data(vec_file)
     |> process_vec_data(vec_size)
 
-    {words, _} = Enum.reduce(words, {%{}, 0}, fn w, {v, i} -> {Map.put(v, w, i), i + 1} end)
-    vectors = Nx.tensor(vectors)
-    NLTEx.WordVectors.new(words, vectors)
+    wordvec = words
+    |> Enum.zip(vectors)
+    |> Map.new()
+
+    NLTEx.WordVectors.new(wordvec, {vec_size})
   end
 
   # Util function to handle extracting specific file from ZIPfile
