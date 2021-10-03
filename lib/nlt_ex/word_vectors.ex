@@ -20,8 +20,6 @@ defmodule NLTEx.WordVectors do
     |> Enum.map(fn t -> Map.get(wv.wordvecs, t, zeros) end)
   end
 
-  def shape(wv), do: wv.shape
-
   def put(wv, word, vec) do
     vshape = Nx.shape(vec)
     unless vshape == wv.shape do
