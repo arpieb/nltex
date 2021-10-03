@@ -85,7 +85,7 @@ defmodule NLTEx.WordVectors.GloVe do
     |> String.split("\n", trim: true)
     |> Enum.map(&String.split/1)
     |> Enum.filter(fn x -> length(x) == vec_size + 1 end)
-    |> Enum.map(fn [word | vec] -> {word, (for x <- vec, do: elem(Float.parse(x), 0))} end)
+    |> Enum.map(fn [word | vec] -> {word, Nx.tensor(for x <- vec, do: elem(Float.parse(x), 0))} end)
     |> Enum.unzip()
   end
 
