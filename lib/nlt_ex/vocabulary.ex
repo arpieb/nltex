@@ -3,6 +3,10 @@ defmodule NLTEx.Vocabulary do
   Tools for creating and manipulating vocabularies
   """
 
+  @default_defn_compiler EXLA
+
+  import Nx.Defn
+
   def from_text(docs, opts \\ []) when is_list(docs) do
     tokenizer = opts[:tokenizer] || (&nonword_tokenizer/1)
     case_handler = opts[:case_handler] || (&nop/1)
@@ -28,12 +32,17 @@ defmodule NLTEx.Vocabulary do
       tokens
       |> Enum.map(fn token -> Map.get(vocab, token, -1) end)
       |> Nx.tensor(type: {:f, 32})
-      |> Nx.new_axis(-1)
-      |> Nx.equal(iotas)
-      |> Nx.sum(axes: [0])
+      |> nx_bow_proc(iotas)
     end)
     |> Enum.to_list()
     |> Nx.stack()
+  end
+
+  defn nx_bow_proc(t, iotas) do
+    t
+    |> Nx.new_axis(-1)
+    |> Nx.equal(iotas)
+    |> Nx.sum(axes: [0])
   end
 
   def nonword_tokenizer(doc) do

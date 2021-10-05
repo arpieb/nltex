@@ -34,6 +34,7 @@ defmodule NLTEx.MixProject do
     [
       {:scidata, "~> 0.1.2"},
       {:nx,      "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "nx", override: true},
+      {:exla,    "~> 0.1.0-dev", github: "elixir-nx/nx", sparse: "exla", override: true},
       {:ex_doc,  ">= 0.24.0", only: :dev, runtime: false},
     ]
   end
