@@ -19,7 +19,7 @@ defmodule NLTEx.Vocabulary do
     tokenizer = opts[:tokenizer] || (&nonword_tokenizer/1)
     case_handler = opts[:case_handler] || (&nop/1)
 
-    iotas = Nx.iota({length(Map.keys(vocab))}) |> IO.inspect()
+    iotas = Nx.iota({length(Map.keys(vocab))})
 
     docs
     |> Stream.map(case_handler)
