@@ -50,7 +50,6 @@ defmodule NLTEx.MixProject do
     [
       source_ref: "v#{@version}",
       source_url: @repo_url,
-      logo: "assets/doc-icon.png",
       extras: ["README.md", "LICENSE"],
     ]
   end
