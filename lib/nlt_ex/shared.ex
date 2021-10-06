@@ -4,7 +4,7 @@ defmodule NLTEx.Shared do
   """
 
   import Nx.Defn
-    
+
   # Shamelesly stolen from Axon.Shared
   defn assert_shape!(lhs, rhs) do
     transform(
@@ -22,4 +22,5 @@ defmodule NLTEx.Shared do
     )
   end
 
+  def nop(doc), do: doc
 end

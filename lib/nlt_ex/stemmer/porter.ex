@@ -7,7 +7,7 @@ defmodule NLTEx.Stemmer.Porter do
   # require IEx
   import String
 
-  def stem(input_word) do
+  def transform(input_word) do
     word = to_string(input_word)
 
     cond do

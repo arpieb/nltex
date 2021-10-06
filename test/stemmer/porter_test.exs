@@ -15,7 +15,7 @@ defmodule NLTEx.Stemmer.Porter.Test do
 
     if (row != :eof) do
       [word1, word2] = handle_row(row)
-      assert(NLTEx.Stemmer.Porter.stem(word1) =~ word2)
+      assert(NLTEx.Stemmer.Porter.transform(word1) =~ word2)
       process_file(file)
     end
   end

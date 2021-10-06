@@ -4,12 +4,12 @@ defmodule NLTEx.Tokenizer.Simple.Test do
 
   test "ws test" do
     doc = "the fat cat sat"
-    assert(["the", "fat", "cat", "sat"] = NLTEx.Tokenizer.Simple.tokenize(doc))
+    assert(["the", "fat", "cat", "sat"] = NLTEx.Tokenizer.Simple.transform(doc))
   end
 
   test "punc test" do
     doc = "the. fat! cat, sat'"
-    assert(["the", "fat", "cat", "sat"] = NLTEx.Tokenizer.Simple.tokenize(doc))
+    assert(["the", "fat", "cat", "sat"] = NLTEx.Tokenizer.Simple.transform(doc))
   end
 
 end
