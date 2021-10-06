@@ -37,9 +37,10 @@ defmodule NLTEx.Vocabulary do
 
   defp to_bow_one(tokens, vocab, iotas, stemmer, case_handler) do
     tokens
-    |> Enum.map(stemmer)
-    |> Enum.map(case_handler)
-    |> Enum.map(fn token -> Map.get(vocab, token, -1) end)
+    |> Stream.map(stemmer)
+    |> Stream.map(case_handler)
+    |> Stream.map(fn token -> Map.get(vocab, token, -1) end)
+    |> Enum.to_list()
     |> Nx.tensor(type: {:f, 32})
     |> nx_bow_proc(iotas)
   end
